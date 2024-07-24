@@ -87,4 +87,39 @@ Fortnite？<br>
 ここからは徐々に増やします。<br>
 <a href="/channel/UC2ACLtOEdgNsTBJcymstNPw">Marunouchi / まるのうち</a><br>
     </abarerukunn>
+    <script>
+    // YouTube Data APIのAPIキー
+    const API_KEY = 'AIzaSyDd2Bw7VOBD1vmLWHAsQ1PcKKFdB3jvmFE';
+
+    // 最新の日本人のYouTube動画を取得して表示する関数
+    async function fetchLatestJapaneseVideos() {
+      try {
+        // YouTube Data APIを使用して最新の日本人の動画を取得
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&part=snippet&type=video&maxResults=5&q=日本人&regionCode=JP&order=date`);
+        const data = await response.json();
+
+        // 取得した動画をHTMLに追加
+        const videosContainer = document.getElementById('videos-container');
+        data.items.forEach(video => {
+          const videoId = video.id.videoId;
+          const videoTitle = video.snippet.title;
+
+          // 動画リンクを作成して追加
+          const videoElement = document.createElement('a');
+          videoElement.href = `https://yuki-yuki.onrender.com/watch?v=${videoId}`;
+          videoElement.textContent = videoTitle;
+          videoElement.target = '_blank'; // 新しいタブで開く
+
+          // リストに追加
+          videosContainer.appendChild(videoElement);
+          videosContainer.appendChild(document.createElement('br')); // 改行を追加
+        });
+      } catch (error) {
+        console.error('動画の取得中にエラーが発生しました:', error);
+      }
+    }
+
+    // ページ読み込み後に動画を取得して表示
+    window.onload = fetchLatestJapaneseVideos;
+  </script>
 </html>
